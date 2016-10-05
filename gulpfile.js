@@ -9,27 +9,33 @@ var plumber = require("gulp-plumber");
 gulp.task("server", function(){
 	browser({
 		server: {
-			baseDir: "./"
+			baseDir: "./dest"
 		}
 	});
 });
 gulp.task("sass", function(){
-	gulp.src("sass/**/*scss")
+	gulp.src("src/sass/**/*scss")
 		.pipe(plumber())
 		.pipe(frontnote({
 			css: '../css/style.css'
 		}))
 		.pipe(sass())
 		.pipe(autoprefixer())
-		.pipe(gulp.dest("./css"))
+		.pipe(gulp.dest("./dest/css"))
 		.pipe(browser.reload({stream:true}));
 });
 
 gulp.task("js", function(){
-	gulp.src(["js/**/*.js", "!js/min/**/*.js"])
+	gulp.src(["src/js/**/*.js", "!src/js/min/**/*.js"])
 		.pipe(plumber())
 		.pipe(uglify())
-		.pipe(gulp.dest("./js/min"))
+		.pipe(gulp.dest("./dest/js"))
+		.pipe(browser.reload({stream:true}));
+});
+
+gulp.task("html", function(){
+	gulp.src(["src/**/*.html"])
+		.pipe(gulp.dest("./dest"))
 		.pipe(browser.reload({stream:true}));
 });
 
